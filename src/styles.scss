@@ -1,0 +1,73 @@
+// Angular Material Dark Theme
+@use '@angular/material' as mat;
+
+@include mat.core();
+
+// Define dark theme colors
+$dark-primary: mat.m2-define-palette(mat.$m2-blue-palette);
+$dark-accent: mat.m2-define-palette(mat.$m2-pink-palette, A200, A100, A400);
+$dark-warn: mat.m2-define-palette(mat.$m2-red-palette);
+
+// Create dark theme
+$dark-theme: mat.m2-define-dark-theme((
+  color: (
+    primary: $dark-primary,
+    accent: $dark-accent,
+    warn: $dark-warn,
+  )
+));
+
+// Apply dark theme
+@include mat.all-component-themes($dark-theme);
+
+// Dark Corporate Theme Variables
+:root {
+  --primary-color: #2563eb;
+  --primary-dark: #1d4ed8;
+  --primary-light: #3b82f6;
+  
+  --success-color: #10b981;
+  --error-color: #ef4444;
+  --warning-color: #f59e0b;
+  --info-color: #06b6d4;
+  
+  --bg-primary: #0f172a;
+  --bg-secondary: #1e293b;
+  --bg-tertiary: #334155;
+  --bg-hover: #475569;
+  
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
+  --text-muted: #94a3b8;
+  
+  --border-color: #475569;
+  --border-focus: var(--primary-color);
+  --border-error: var(--error-color);
+  --border-success: var(--success-color);
+  
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  
+  --transition-fast: 0.15s ease-in-out;
+  --transition-normal: 0.3s ease-in-out;
+  
+  --radius: 8px;
+  --radius-lg: 12px;
+}
+
+// Global dark theme styles
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+}
+
+body {
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+// Material Icons
+@import url('https://fonts.googleapis.com/icon?family=Material+Icons');

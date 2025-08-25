@@ -1,0 +1,178 @@
+<div class="form-container">
+  <div class="form-header">
+    <h1 class="form-title">
+      <i class="fas fa-user"></i>
+      User Registration
+    </h1>
+    <p class="form-subtitle">Angular Reactive Forms Demo</p>
+    <div class="form-progress">
+      <div class="progress-bar" [style.width.%]="getFormProgress()"></div>
+    </div>
+  </div>
+
+  <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="reactive-form">
+    
+    <!-- Name field - Full width -->
+    <div class="form-group full-width">
+      <label for="name" class="form-label">
+        <i class="fas fa-user"></i>
+        Full Name <span class="required">*</span>
+      </label>
+      <div class="input-wrapper">
+        <input 
+          id="name"
+          formControlName="name" 
+          placeholder="Enter your full name"
+          class="form-input"
+          autocomplete="off"
+          [class.invalid]="userForm.get('name')?.invalid && userForm.get('name')?.touched"
+          [class.valid]="userForm.get('name')?.valid && userForm.get('name')?.touched">
+        <div class="input-icon">
+          @if (userForm.get('name')?.valid) {
+            <i class="fas fa-check"></i>
+          }
+          @if (userForm.get('name')?.invalid && userForm.get('name')?.touched) {
+            <i class="fas fa-times clear-btn" (click)="clearField('name')" title="Clear field"></i>
+          }
+        </div>
+      </div>
+      @if (userForm.get('name')?.invalid && userForm.get('name')?.touched) {
+        <div class="error-message">
+          <i class="fas fa-exclamation-triangle"></i>
+          Name is required
+        </div>
+      }
+    </div>
+
+    <!-- Email and Phone - Side by side -->
+    <div class="form-row">
+      <div class="form-group half-width">
+        <label for="email" class="form-label">
+          <i class="fas fa-envelope"></i>
+          Email Address <span class="required">*</span>
+        </label>
+        <div class="input-wrapper">
+          <input 
+            id="email"
+            type="email" 
+            formControlName="email" 
+            placeholder="your@email.com"
+            class="form-input"
+            autocomplete="off"
+            [class.invalid]="userForm.get('email')?.invalid && userForm.get('email')?.touched"
+            [class.valid]="userForm.get('email')?.valid && userForm.get('email')?.touched">
+          <div class="input-icon">
+            @if (userForm.get('email')?.valid) {
+              <i class="fas fa-check"></i>
+            }
+            @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
+              <i class="fas fa-times clear-btn" (click)="clearField('email')" title="Clear field"></i>
+            }
+          </div>
+        </div>
+        @if (userForm.get('email')?.invalid && userForm.get('email')?.touched) {
+          <div class="error-message">
+            <i class="fas fa-exclamation-triangle"></i>
+            Please enter a valid email
+          </div>
+        }
+      </div>
+
+      <div class="form-group half-width">
+        <label for="phone" class="form-label">
+          <i class="fas fa-phone"></i>
+          Phone Number
+        </label>
+        <div class="input-wrapper">
+          <input 
+            id="phone"
+            type="tel" 
+            formControlName="phone" 
+            placeholder="(00) 00000-0000"
+            class="form-input"
+            autocomplete="off"
+            [class.valid]="userForm.get('phone')?.valid && userForm.get('phone')?.value">
+          <div class="input-icon">
+            @if (userForm.get('phone')?.valid && userForm.get('phone')?.value) {
+              <i class="fas fa-check"></i>
+            }
+            @if (userForm.get('phone')?.value && !userForm.get('phone')?.valid) {
+              <i class="fas fa-times clear-btn" (click)="clearField('phone')" title="Clear field"></i>
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Skills Section - FormArray -->
+    <div class="form-group full-width skills-section" formArrayName="skills">
+      <label class="form-label">
+        <i class="fas fa-star"></i>
+        Professional Skills
+        <span class="skills-count">({{ skills.length }})</span>
+      </label>
+      
+      <div class="skills-container">
+        @for (skill of skills.controls; track skill; let i = $index) {
+          <div class="skill-item" [@slideIn]>
+            <div class="skill-number">{{ i + 1 }}</div>
+            <div class="input-wrapper skill-input-wrapper">
+              <input 
+                [formControlName]="i" 
+                placeholder="e.g., Angular, TypeScript, Node.js"
+                class="form-input skill-input"
+                autocomplete="off"
+                [class.valid]="skill.valid && skill.value">
+              <div class="input-icon">
+                @if (skill.valid && skill.value) {
+                  <i class="fas fa-check"></i>
+                }
+                @if (skill.value && !skill.valid) {
+                  <i class="fas fa-times clear-btn" (click)="clearSkillField(i)" title="Clear field"></i>
+                }
+              </div>
+            </div>
+            <button 
+              type="button" 
+              (click)="removeSkill(i)"
+              class="remove-skill-btn"
+              title="Remove skill"
+              [@fadeIn]>
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        } @empty {
+          <div class="empty-skills">
+            <i class="fas fa-info-circle"></i>
+            <span>No skills added yet. Start building your profile!</span>
+          </div>
+        }
+
+        <button 
+          type="button" 
+          (click)="addSkill()"
+          class="add-skill-btn">
+          <i class="fas fa-plus"></i>
+          Add New Skill
+        </button>
+      </div>
+    </div>
+
+    <!-- Form Actions -->
+    <div class="form-actions">
+      <button 
+        type="submit" 
+        [disabled]="userForm.invalid"
+        class="submit-btn"
+        [class.loading]="isSubmitting">
+        @if (!isSubmitting) {
+          <i class="fas fa-paper-plane"></i>
+        }
+        @if (isSubmitting) {
+          <i class="fas fa-spinner fa-spin"></i>
+        }
+        {{ isSubmitting ? 'Submitting...' : 'Submit Form' }}
+      </button>
+    </div>
+  </form>
+</div>
