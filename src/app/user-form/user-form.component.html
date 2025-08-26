@@ -12,8 +12,8 @@
 
   <form [formGroup]="userForm" (ngSubmit)="onSubmit()" class="reactive-form">
     
-    <!-- Name field - Full width -->
-    <div class="form-group full-width">
+    <!-- Name field -->
+    <div class="form-group">
       <label for="name" class="form-label">
         <i class="fas fa-user"></i>
         Full Name <span class="required">*</span>
@@ -39,14 +39,14 @@
       @if (userForm.get('name')?.invalid && userForm.get('name')?.touched) {
         <div class="error-message">
           <i class="fas fa-exclamation-triangle"></i>
-          Name is required
+          Full Name is required
         </div>
       }
     </div>
 
-    <!-- Email and Phone - Side by side -->
+    <!-- Email -->
     <div class="form-row">
-      <div class="form-group half-width">
+      <div class="form-group full-width">
         <label for="email" class="form-label">
           <i class="fas fa-envelope"></i>
           Email Address <span class="required">*</span>
@@ -76,31 +76,6 @@
             Please enter a valid email
           </div>
         }
-      </div>
-
-      <div class="form-group half-width">
-        <label for="phone" class="form-label">
-          <i class="fas fa-phone"></i>
-          Phone Number
-        </label>
-        <div class="input-wrapper">
-          <input 
-            id="phone"
-            type="tel" 
-            formControlName="phone" 
-            placeholder="(00) 00000-0000"
-            class="form-input"
-            autocomplete="off"
-            [class.valid]="userForm.get('phone')?.valid && userForm.get('phone')?.value">
-          <div class="input-icon">
-            @if (userForm.get('phone')?.valid && userForm.get('phone')?.value) {
-              <i class="fas fa-check"></i>
-            }
-            @if (userForm.get('phone')?.value && !userForm.get('phone')?.valid) {
-              <i class="fas fa-times clear-btn" (click)="clearField('phone')" title="Clear field"></i>
-            }
-          </div>
-        </div>
       </div>
     </div>
 

@@ -1,15 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-
 import { CommonModule } from '@angular/common';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UserForm } from './model/user-form.model';
-
-// Angular Material imports
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-user-form',
@@ -31,7 +23,6 @@ export class UserFormComponent implements OnInit {
     this.userForm = this.fb.group<UserForm>({
       name: this.fb.control('', Validators.required),
       email: this.fb.control('', [Validators.required, Validators.email]),
-      phone: this.fb.control<string | null>(null),
       skills: this.fb.array<FormControl<string>>([])
     });
   }
@@ -64,12 +55,11 @@ export class UserFormComponent implements OnInit {
 
   // Get form progress percentage for progress bar
   getFormProgress(): number {
-    const totalFields = 3; // name, email, phone (skills are optional)
+    const totalFields = 2; // name, email (skills are optional)
     let filledFields = 0;
     
     if (this.userForm.get('name')?.value) filledFields++;
     if (this.userForm.get('email')?.valid) filledFields++;
-    if (this.userForm.get('phone')?.value) filledFields++;
     
     return (filledFields / totalFields) * 100;
   }
